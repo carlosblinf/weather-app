@@ -54,3 +54,8 @@ export interface City {
   admin1: string;
   admin2: string;
 }
+
+export interface WeatherCard {
+  cityName: string;
+  weather: WeatherResponse;
+}

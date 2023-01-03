@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useWeather } from '../../contex/WeatherContext';
 import useDebounce from '../../hooks/debounce';
 import { City } from '../../util/types';
+import WeatherService from '../../services/WeatherService';
 
 type FormValues = {
   search: string;
@@ -23,30 +24,29 @@ function Search() {
   const debounceQuery = useDebounce(value, 350);
 
   const getCitySuggestions = async (text: string) => {
-    fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${text}`)
-      .then((response) => response.json())
-      .then((json) => setSuggestionsCity(json.results))
-      .catch((err) => console.log(err));
+    const results = await WeatherService.getCities(text);
+    setSuggestionsCity(results);
   };
 
   useEffect(() => {
-    if (debounceQuery) getCitySuggestions(debounceQuery);
+    if (debounceQuery && debounceQuery.length >= 3) getCitySuggestions(debounceQuery);
   }, [debounceQuery]);
 
   useEffect(() => {
     if (selectedCity) setTextValue(`${selectedCity.name} ${selectedCity.admin1}, ${selectedCity.country}`);
   }, [selectedCity]);
 
-  const onSubmit = () => {
-    console.log(selectedCity);
-    // addPlace(data.search);
-    setTextValue('');
-    setValue('');
-  };
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value);
 
   const handleOnClick = (city: City) => {
     setSelectedCity(city);
     setSuggestionsCity([]);
+  };
+
+  const onSubmit = () => {
+    if (selectedCity) addPlace(selectedCity);
+    setTextValue('');
+    setValue('');
   };
 
   return (
@@ -55,13 +55,13 @@ function Search() {
         <div className="text-center w-full relative">
           <input
             type="text"
-            {...register('search', { required: 'Is required, please enter a valid address' })}
+            {...register('search', { required: true, minLength: 3 })}
             placeholder="Enter a city name"
             className="rounded-2xl px-4 h-[40px] w-full md:w-[350px] text-sm"
-            onChange={(e) => setValue(e.target.value)}
+            onChange={handleOnChange}
             value={textValue || value}
           />
-          {errors.search && <div className="mb-3 text-normal text-red-500 ">{errors.search.message}</div>}
+          {errors.search && <div className="mb-3 text-normal text-red-500 ">Is required, please enter at least 3 letters</div>}
           {suggestionsCity.length > 0 && (
             <ul className="bg-white border-[1px] rounded-lg shadow-lg p-4 absolute right-2 left-2 max-h-[200px] overflow-y-auto">
               {suggestionsCity.map((city) => (

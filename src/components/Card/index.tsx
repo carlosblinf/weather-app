@@ -1,30 +1,29 @@
 import React from 'react';
 import { useWeather } from '../../contex/WeatherContext';
-import { WeatherResponse } from '../../util/types';
+import { WeatherCard } from '../../util/types';
 import { getDayOfWeek } from '../../util/utils';
-import DeleteSvg from '../../assets/delete.svg';
 
 type CardProps = {
-  place: WeatherResponse;
+  place: WeatherCard;
 };
 
 function Card({ place }: CardProps) {
+  const { weather } = place;
   const { deletePlace } = useWeather();
 
   const handleSubmit = () => {
-    deletePlace(place);
+    deletePlace(weather);
   };
-  // const getBgColor = () => (place.current_weather.weathercode <= 3 ? 'bg-bgDarkBlue' : 'bg-bgYellou');
 
   const getDays = (): string[] => {
-    const days = place.daily.time.map((day) => getDayOfWeek(day));
+    const days = weather.daily.time.map((day) => getDayOfWeek(day));
     days[0] = 'TODAY';
     return days;
   };
 
   const getTemperatureOfDays = (): number[] => {
-    const temperatureOfDays = place.daily.temperature_2m_max;
-    temperatureOfDays[0] = place.current_weather.temperature;
+    const temperatureOfDays = weather.daily.temperature_2m_max;
+    temperatureOfDays[0] = weather.current_weather.temperature;
     return temperatureOfDays;
   };
 
@@ -35,7 +34,7 @@ function Card({ place }: CardProps) {
   };
 
   const getIcon = () => {
-    const { weathercode, temperature } = place.current_weather;
+    const { weathercode, temperature } = weather.current_weather;
     if (weathercode < 2 && temperature >= 30) return 'wi-day-sunny';
     if (weathercode < 2) return 'wi-cloud';
     if (weathercode <= 3) return 'wi-cloudy';
@@ -49,12 +48,12 @@ function Card({ place }: CardProps) {
 
   return (
     <div className={`flex flex-col justify-between ${getBgColor()} p-5  w-[300px] h-[250px] rounded-[40px] text-sm text-white`}>
-      <div className="flex justify-between px-2">
-        <i className={`wi ${getIcon()} text-[42px] text-lightBlue`} />
+      <div className="flex justify-between px-1">
+        <i className={`wi ${getIcon()} text-[38px] ${getIcon() === 'wi-day-sunny' ? 'text-darkYellou' : 'text-lightBlue'}`} />
         <div className="">
-          <div>Washington DC</div>
+          <div>{place.cityName}</div>
           <div>
-            {place.latitude}° E, {place.longitude}° N
+            {weather.latitude}° E, {weather.longitude}° N
           </div>
         </div>
       </div>
