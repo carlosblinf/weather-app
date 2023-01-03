@@ -3,7 +3,7 @@ import Card from '../Card';
 
 function CardList() {
   return (
-    <div className="flex justify-between">
+    <div className="flex flex-wrap gap-8 justify-center">
       <Card />
       <Card />
       <Card />
