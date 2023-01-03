@@ -3,7 +3,7 @@ import ButtonSwitch from '../ButtonSwitch';
 
 function Header() {
   return (
-    <div className="flex justify-end bg-transparent h-14 px-24 py-10">
+    <div className="flex justify-end bg-transparent h-14 px-14 md:px-24 py-10">
       <ButtonSwitch />
     </div>
   );

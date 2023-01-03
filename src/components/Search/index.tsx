@@ -60,6 +60,7 @@ function Search() {
             className="rounded-2xl px-4 h-[40px] w-full md:w-[350px] text-sm"
             onChange={handleOnChange}
             value={textValue || value}
+            autoComplete="off"
           />
           {errors.search && <div className="mb-3 text-normal text-red-500 ">Is required, please enter at least 3 letters</div>}
           {suggestionsCity.length > 0 && (

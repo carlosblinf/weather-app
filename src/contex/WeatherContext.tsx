@@ -7,6 +7,8 @@ interface WeatherContextType {
   places: WeatherCard[];
   addPlace: (place: City) => void;
   deletePlace: (place: WeatherResponse) => void;
+  unit: string;
+  toggleUnit: (isCelcius: boolean) => void;
 }
 
 const WeatherContext = createContext({} as WeatherContextType);
@@ -15,9 +17,10 @@ export const useWeather = () => useContext(WeatherContext);
 
 export function WeatherContextProvider({ children }: WeatherProviderProps) {
   const [places, setPlaces] = useState<WeatherCard[]>([]);
+  const [unit, setUnit] = useState<string>('celsius');
 
   async function addPlace(place: City) {
-    const placeResponse = await WeatherService.getWeather(place);
+    const placeResponse = await WeatherService.getWeather(place, unit);
     const newPlace: WeatherCard = { cityName: `${place.name},${place.country}`, weather: placeResponse };
 
     setPlaces((prev) => [...prev, newPlace]);
@@ -30,5 +33,10 @@ export function WeatherContextProvider({ children }: WeatherProviderProps) {
     setPlaces(updatePlaces);
   }
 
-  return <WeatherContext.Provider value={{ places, addPlace, deletePlace }}>{children}</WeatherContext.Provider>;
+  function toggleUnit(fahrenheit: boolean) {
+    const selectedUnit = fahrenheit ? 'fahrenheit' : 'celsius';
+    setUnit(selectedUnit);
+  }
+
+  return <WeatherContext.Provider value={{ places, addPlace, deletePlace, unit, toggleUnit }}>{children}</WeatherContext.Provider>;
 }

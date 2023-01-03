@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useWeather } from '../../contex/WeatherContext';
 
 function ButtonSwitch() {
   const [checked, setChecked] = useState(false);
+  const { toggleUnit } = useWeather();
 
   const handleChange = () => {
     setChecked(!checked);
   };
+
+  useEffect(() => {
+    toggleUnit(checked);
+  }, [checked]);
 
   return (
     <label className="inline-flex relative items-center cursor-pointer" htmlFor="unit">

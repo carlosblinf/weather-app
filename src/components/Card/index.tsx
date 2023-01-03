@@ -9,7 +9,7 @@ type CardProps = {
 
 function Card({ place }: CardProps) {
   const { weather } = place;
-  const { deletePlace } = useWeather();
+  const { deletePlace, unit } = useWeather();
 
   const handleSubmit = () => {
     deletePlace(weather);
@@ -30,12 +30,16 @@ function Card({ place }: CardProps) {
   const getBgColor = () => {
     const temperatures = getTemperatureOfDays();
     const promed = temperatures.reduce((acc, temp) => acc + temp) / temperatures.length;
-    return promed < 30 ? 'bg-bgDarkBlue' : 'bg-bgYellou';
+    return (weather.daily_units.temperature_2m_max === '°C' && promed > 30) ||
+      (weather.daily_units.temperature_2m_max === '°F' && promed > 86)
+      ? 'bg-bgYellou'
+      : 'bg-bgDarkBlue';
   };
 
   const getIcon = () => {
     const { weathercode, temperature } = weather.current_weather;
-    if (weathercode < 2 && temperature >= 30) return 'wi-day-sunny';
+    if (weathercode < 2 && ((unit === 'celcius' && temperature >= 30) || (unit === 'fahrenheit ' && temperature >= 86)))
+      return 'wi-day-sunny';
     if (weathercode < 2) return 'wi-cloud';
     if (weathercode <= 3) return 'wi-cloudy';
     if (weathercode <= 48) return 'wi-day-fog';
@@ -61,7 +65,7 @@ function Card({ place }: CardProps) {
         {getDays().map((day, index) => (
           <div className="" key={day}>
             <div>{day}</div>
-            <div>{getTemperatureOfDays()[index]}</div>
+            <div>{`${getTemperatureOfDays()[index]} ${weather.daily_units.temperature_2m_max}`}</div>
           </div>
         ))}
       </div>
