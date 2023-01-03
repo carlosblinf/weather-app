@@ -3,3 +3,4 @@ export { default as Search } from './Search';
 export { default as WrapperCardList } from './WrapperCardList';
 export { default as CardList } from './CardList';
 export { default as Card } from './Card';
+export { default as EmptySate } from './EmptySate';

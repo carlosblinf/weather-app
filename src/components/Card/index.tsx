@@ -38,8 +38,8 @@ function Card({ place }: CardProps) {
 
   const getIcon = () => {
     const { weathercode, temperature } = weather.current_weather;
-    if (weathercode < 2 && ((unit === 'celcius' && temperature >= 30) || (unit === 'fahrenheit ' && temperature >= 86)))
-      return 'wi-day-sunny';
+    if (weathercode < 2 && temperature >= 30 && weather.daily_units.temperature_2m_max === '°C') return 'wi-day-sunny';
+    if (weathercode < 2 && temperature >= 86 && weather.daily_units.temperature_2m_max === '°F') return 'wi-day-sunny';
     if (weathercode < 2) return 'wi-cloud';
     if (weathercode <= 3) return 'wi-cloudy';
     if (weathercode <= 48) return 'wi-day-fog';
@@ -53,7 +53,7 @@ function Card({ place }: CardProps) {
   return (
     <div className={`flex flex-col justify-between ${getBgColor()} p-5  w-[300px] h-[250px] rounded-[40px] text-sm text-white`}>
       <div className="flex justify-between px-1">
-        <i className={`wi ${getIcon()} text-[38px] ${getIcon() === 'wi-day-sunny' ? 'text-darkYellou' : 'text-lightBlue'}`} />
+        <i className={`wi ${getIcon()} text-[42px] ${getIcon() === 'wi-day-sunny' ? 'text-darkYellou' : 'text-lightBlue'}`} />
         <div className="">
           <div>{place.cityName}</div>
           <div>
