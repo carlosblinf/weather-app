@@ -6,7 +6,7 @@ function WrapperCardList() {
   const { places } = useWeather();
 
   return (
-    <div className="container flex-1 p-10">
+    <div className="flex-1 p-10">
       <CardList places={places} />
     </div>
   );

@@ -19,7 +19,7 @@ export function WeatherContextProvider({ children }: WeatherProviderProps) {
 
   async function addPlace(place: string) {
     const { startDate, endDate } = getRangeDays(4);
-    const newPlace = await api.get<WeatherResponse>(`&latitude=${place}&longitude=-82.38&start_date=${startDate}&end_date=${endDate}`);
+    const newPlace = await api.get<WeatherResponse>(`&latitude=${place}&longitude=-82&start_date=${startDate}&end_date=${endDate}`);
     console.log(newPlace);
     // const nePlace: WeatherResponse = newPlace;
     setPlaces((prev) => [...prev, newPlace]);
