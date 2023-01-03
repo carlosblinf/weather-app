@@ -8,8 +8,8 @@ function ButtonSwitch() {
   };
 
   return (
-    <label className="inline-flex relative items-center cursor-pointer" htmlFor="currency">
-      <input id="currency" type="checkbox" value="" className="sr-only peer" checked={checked} onChange={handleChange} />
+    <label className="inline-flex relative items-center cursor-pointer" htmlFor="unit">
+      <input id="unit" type="checkbox" value="" className="sr-only peer" checked={checked} onChange={handleChange} />
       <div
         className="w-16 h-8 relative bg-bgGrey peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300
    dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full
