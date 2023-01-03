@@ -52,7 +52,7 @@ function Search() {
   return (
     <div className="p-2">
       <form className="flex gap-2 md:gap-10 flex-wrap justify-center" onSubmit={handleSubmit(onSubmit)}>
-        <div className="text-center w-full relative">
+        <div className="text-center w-full md:w-auto relative">
           <input
             type="text"
             {...register('search', { required: true, minLength: 3 })}
