@@ -54,7 +54,7 @@ function Card({ place }: CardProps) {
         <div className="">
           <div>Washington DC</div>
           <div>
-            {place.latitude}° N, {place.longitude}° W
+            {place.latitude}° E, {place.longitude}° N
           </div>
         </div>
       </div>
