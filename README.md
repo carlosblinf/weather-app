@@ -2,7 +2,7 @@
 
 Wheather App with React + Typescript + TailwindCss + Vite
 
-You can visit demo [here](https://socialnetwork-react.vercel.app/).
+You can visit demo [here](https://weather-app-react-carlosblinf.vercel.app/).
 
 ## Getting started
 
