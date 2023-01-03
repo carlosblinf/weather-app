@@ -1,6 +1,16 @@
 import React from 'react';
+import { useWeather } from '../../contex/WeatherContext';
 
-function Card() {
+type CardProps = {
+  place: any;
+};
+
+function Card({ place }: CardProps) {
+  const { deletePlace } = useWeather();
+  const handleSubmit = () => {
+    console.log('first');
+    deletePlace(place);
+  };
   return (
     <div className="flex flex-col justify-between bg-bgDarkBlue p-5  w-[300px] h-[250px] rounded-[40px] text-sm text-white">
       <div className="flex justify-between">
@@ -16,24 +26,24 @@ function Card() {
           <div>22°</div>
         </div>
         <div className="">
-          <div>TODAY</div>
+          <div>SUN</div>
           <div>22°</div>
         </div>
         <div className="">
-          <div>TODAY</div>
+          <div>MON</div>
           <div>22°</div>
         </div>
         <div className="">
-          <div>TODAY</div>
+          <div>TUE</div>
           <div>22°</div>
         </div>
         <div className="">
-          <div>TODAY</div>
+          <div>WED</div>
           <div>22°</div>
         </div>
       </div>
       <div className="text-center">
-        <button type="button">
+        <button type="button" onClick={() => handleSubmit()}>
           <i>i</i>
         </button>
       </div>

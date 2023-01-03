@@ -1,13 +1,17 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import Card from '../Card';
 
-function CardList() {
+type CardListProps = {
+  places: any[];
+};
+
+function CardList({ places }: CardListProps) {
   return (
     <div className="flex flex-wrap gap-8 justify-center">
-      <Card />
-      <Card />
-      <Card />
-      <Card />
+      {places.map((place, index) => (
+        <Card key={index} place={place}/>
+      ))}
     </div>
   );
 }
