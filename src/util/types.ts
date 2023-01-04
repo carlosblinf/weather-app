@@ -76,3 +76,15 @@ export type SuggestionListProps = {
   suggestionsCity: City[];
   handleOnClick: (city: City) => void;
 };
+
+export type CardListProps = {
+  places: WeatherCard[];
+};
+
+export interface WeatherContextType {
+  places: WeatherCard[];
+  addPlace: (place: City) => void;
+  deletePlace: (place: WeatherResponse) => void;
+  unit: string;
+  toggleUnit: (isCelcius: boolean) => void;
+}

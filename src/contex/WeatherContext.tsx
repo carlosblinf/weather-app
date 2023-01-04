@@ -1,15 +1,7 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import { useContext, createContext, useState } from 'react';
-import { WeatherResponse, WeatherProviderProps, City, WeatherCard } from '../util/types';
+import { WeatherResponse, WeatherProviderProps, City, WeatherCard, WeatherContextType } from '../util/types';
 import WeatherService from '../services/WeatherService';
-
-interface WeatherContextType {
-  places: WeatherCard[];
-  addPlace: (place: City) => void;
-  deletePlace: (place: WeatherResponse) => void;
-  unit: string;
-  toggleUnit: (isCelcius: boolean) => void;
-}
 
 const WeatherContext = createContext({} as WeatherContextType);
 

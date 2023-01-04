@@ -1,10 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import Card from '../Card';
-
-type CardListProps = {
-  places: any[];
-};
+import { CardListProps } from '../../util/types';
 
 function CardList({ places }: CardListProps) {
   return (
