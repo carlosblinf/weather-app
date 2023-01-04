@@ -59,3 +59,11 @@ export interface WeatherCard {
   cityName: string;
   weather: WeatherResponse;
 }
+
+export type CardProps = {
+  place: WeatherCard;
+};
+
+export type TemperatureDayListProps = {
+  weather: WeatherResponse;
+};

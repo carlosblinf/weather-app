@@ -1,59 +1,16 @@
 import React from 'react';
-import { useWeather } from '../../contex/WeatherContext';
-import { WeatherCard } from '../../util/types';
-import { getDayOfWeek } from '../../util/utils';
-
-type CardProps = {
-  place: WeatherCard;
-};
+import { CardProps } from '../../util/types';
+import useWeatherCard from '../../hooks/useWeatherCard';
+import TemperatureDayList from '../TemperatureDayList';
 
 function Card({ place }: CardProps) {
   const { weather } = place;
-  const { deletePlace, unit } = useWeather();
-
-  const handleSubmit = () => {
-    deletePlace(weather);
-  };
-
-  const getDays = (): string[] => {
-    const days = weather.daily.time.map((day) => getDayOfWeek(day));
-    days[0] = 'TODAY';
-    return days;
-  };
-
-  const getTemperatureOfDays = (): number[] => {
-    const temperatureOfDays = weather.daily.temperature_2m_max;
-    temperatureOfDays[0] = weather.current_weather.temperature;
-    return temperatureOfDays;
-  };
-
-  const getBgColor = () => {
-    const temperatures = getTemperatureOfDays();
-    const promed = temperatures.reduce((acc, temp) => acc + temp) / temperatures.length;
-    return (weather.daily_units.temperature_2m_max === '°C' && promed > 30) ||
-      (weather.daily_units.temperature_2m_max === '°F' && promed > 86)
-      ? 'bg-bgYellou'
-      : 'bg-bgDarkBlue';
-  };
-
-  const getIcon = () => {
-    const { weathercode, temperature } = weather.current_weather;
-    if (weathercode < 2 && temperature >= 30 && weather.daily_units.temperature_2m_max === '°C') return 'wi-day-sunny';
-    if (weathercode < 2 && temperature >= 86 && weather.daily_units.temperature_2m_max === '°F') return 'wi-day-sunny';
-    if (weathercode < 2) return 'wi-cloud';
-    if (weathercode <= 3) return 'wi-cloudy';
-    if (weathercode <= 48) return 'wi-day-fog';
-    if (weathercode <= 67 || (weathercode >= 80 && weathercode <= 86)) return 'wi-day-rain';
-    if (weathercode <= 77) return 'wi-day-snow';
-    if (weathercode <= 99) return 'wi-day-thunderstorm';
-
-    return 'wi-cloud';
-  };
+  const { handleSubmit, bgColor, icon } = useWeatherCard(weather);
 
   return (
-    <div className={`flex flex-col justify-between ${getBgColor()} p-5  w-[300px] h-[250px] rounded-[40px] text-sm text-white`}>
+    <div className={`flex flex-col justify-between ${bgColor} p-5  w-[300px] h-[250px] rounded-[40px] text-sm text-white`}>
       <div className="flex justify-between px-1">
-        <i className={`wi ${getIcon()} text-[42px] ${getIcon() === 'wi-day-sunny' ? 'text-darkYellou' : 'text-lightBlue'}`} />
+        <i className={`wi ${icon} text-[42px] ${icon === 'wi-day-sunny' ? 'text-darkYellou' : 'text-lightBlue'}`} />
         <div className="">
           <div>{place.cityName}</div>
           <div>
@@ -61,14 +18,7 @@ function Card({ place }: CardProps) {
           </div>
         </div>
       </div>
-      <div className="flex text-center justify-around">
-        {getDays().map((day, index) => (
-          <div className="" key={day}>
-            <div>{day}</div>
-            <div>{`${getTemperatureOfDays()[index]} ${weather.daily_units.temperature_2m_max}`}</div>
-          </div>
-        ))}
-      </div>
+      <TemperatureDayList weather={weather} />
       <div className="text-center">
         <button type="button" onClick={() => handleSubmit()}>
           <img src="/delete.svg" alt="delete" className="text-bgGrey1 w-6" />
