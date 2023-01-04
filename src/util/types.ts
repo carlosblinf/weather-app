@@ -67,3 +67,12 @@ export type CardProps = {
 export type TemperatureDayListProps = {
   weather: WeatherResponse;
 };
+
+export type FormValues = {
+  search: string;
+};
+
+export type SuggestionListProps = {
+  suggestionsCity: City[];
+  handleOnClick: (city: City) => void;
+};
